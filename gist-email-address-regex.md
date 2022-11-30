@@ -2,29 +2,30 @@
 ```md
 As a web development student
 I wanted to research and create a tutorial explaining a specific regex
-So that I can better understand the search pattern to check and validate username. 
+So that I can better understand how to match an email address. 
 ```
 
 ## Summary
 ```md
 Regex is short word for Regular Expressions. 
 Regular expressions are a series of special characters that define a search patter. 
-The search pattern I want to describe is matching a username which can be done by the following series of characters. 
+The search pattern I want to describe is `matching an email address` which can be done by the following series of characters. 
 ```
 
-`/^[a-z0-9_-]{3,16}$/`
+`/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`
 
 ```md
 This example is a uses literal notation, meaning the pattern must be wrapped in the slash character `/`. In this example, characters wrapped inside the slash characters checks to see if a string meets a required criteria for a username. The criteria is: 
 
-* A string can contain any lowercase letter between a-z. 
+* It can contain any lowercase letter between a-z. 
 * Any number between 0-9
-* An underscore or hyphen
-* The length of the string is between 3-16 characters. 
+* An underscore
+* A dot (period) `.`
+* The length of the string after the final dot is between 2-6 characters. For example `.com `or `.ca` etc..
 
 I will futher explain the components of a regex and how they work in the sections below.
 ```
-> **Note**: Javascript provides two ways to create a regex object. Mine usees literal notation indicated by enclosing the characters in the `/` character. The second way is by using a RegEx constructor which encloses the characters in `?` instead. 
+
 
 ## Table of Contents
 
@@ -51,7 +52,19 @@ I will futher explain the components of a regex and how they work in the section
   
 * `$` is an anchor that indicates a string that ends with the character(s) that came before it. 
 
-In the example `/^[a-z0-9_-]$/` the string must start and end with something matching that pattern. However in the example `/^[a-z0-9_-]{3,16}$/` the `{3, 16}` is called a `Quatifier` which I will describe next. 
+In the example `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` 
+* Their are 3 main parts of this regex with an optional 4th part. The 3 main parts are sectioned off by the parenthesees `()`.
+
+* 1st is the username. `([a-z0-9_\.-]+)` This can include any `lowercase letters a-z`, any `numbers 0-9`, an underscore `_` or a dash `-`. The `+` means it must be at least 1 character long, but can be more than that.
+
+* 2nd is the domain `([\da-z\.-]+)`. This can include `lowercase letters, numbers, hyphens`.
+
+* 3rd is the extension `([a-z\.]{2,6})` any lowercase letters between `a-z`.
+
+* 4th is another possible extension. This is an optional extension but will always begin with a `.`
+  * Between the main parts 1 and 2 is the symbol `@`. This is required between part 1 and part 2 which is the username and the domain. For example `john_doe@gmail` where `john_doe` is the `username` (1) `@` gmail is the `domain` (2). Here are those sections of the regex `([a-z0-9_\.-]+)@([\da-z\.-]+)`
+  * Part 3 is the dot symbol `.` and has a backslash `\` before the period to make it a `literal` character, because the `.` by itself can have other meanings in a regex which I will describe later. The dot is followed by any `lowercase letters a-z` with the option of ending there, but if not it must be followed by another dot and domain name.
+* The `{2, 6}` at the end is called a `Quatifier` which I will describe next. 
   
 ### Quantifiers
 Quantifiers set the limit of the string, or section of the string, and idicate that a character must be matched a certain number of times. In the example `{3, 16}` this is setting the minimum and maximum amout of characters to a minimum of 3 and maximum of 16. 
@@ -64,42 +77,44 @@ Quantifiers set the limit of the string, or section of the string, and idicate t
 * `{ n, }` Matches the pattern AT LEAST `n` number of times. 
 * `{ n, x }` Matches the pattern to a minimum of `n` times, and a maximum of `x` times.
 
-In the example `{3, 16}` the minimum is 3 and the maximum is 16. 
+In the example `{2, 6}` the minimum is 2 and the maximum is 6. For an email this would be in the form of `.co.uk` which is the United Kingdom's way of ending an email address. Or `.com` which is the ending for email addresses in the US and elsewhere.
 
 `Quatifiers can be considered  "greedy" or "lazy".`
 
 * `Lazy` Meaning it will match as few occurrences as possible. This is done using the `?` symbol after the character.
-* `Greedy` By default, quantifiers are `Greedy` and will match as many characters as possible. 
+* _By default_, quantifiers are `Greedy` and will match as many characters as possible. 
 
 ### Grouping Constructs
-* Some regular expression are more complicated than the example I am using. When the regex is more complicated it is easier to check multiple parts of a string if you want to make sure different sections meet different requirements. That is what `grouping constuctors` are used for, to break sections up.
 * You can group a section using `()` where each section with a parentheses is called a `subexpression`.
-* `(abc)` is looking for a part of the string that matches `abc` exactly. In otherwords, `cba` would not match. 
+  
+* When the regex is more complicated it's easier to check multiple parts of a string if you want to make sure subexpression meet different requirements. `Grouping Constuctors` delineate the subexpression of a regex and capture the substrings of an input string. In the email example `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` the subexpression can be seen broken up as `/^` `([a-z0-9_\.-]+` `@` `([\da-z\.-]+)` `\.` `([a-z\.]{2,6})` `$/` where the parts in parenthesees are subexpression of grouping constuctors. 
 
 ### Bracket Expressions
 * `[]` what is inside the `[]`represents a range of characters we want to include in the search. A `-` can be used between letters or numbers to represent a range. Or you can type in the range for the same results. 
 
-* For example, `[xyz]` will look for a string that includes `x` or `y` or `z` and the lenght of the string doesn't matter. So `extra` would be a match `zebra` would be a match `yyy` would also be a match, and so on. 
+* For example, `[xyz]` will look for a string that includes `x` or `y` or `z` and the length of the string doesn't matter. So `extra` would be a match `zebra` would be a match `yyy` would also be a match, and so on. 
 This could also be accomplished using the `-` symbol. In this case you would type `[x-z]` to get the same results that `[xyz]` would result in. 
+* In the email example `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` the input inside the brackets means that _ANY_ of those characters are acceptable, not _ALL_ of them are required. The `()`surrounding those brackets makes the content of the brackets a requirement, while the input inside the brackets is required, not _ALL_ of the input is. _ANY_ of that input will work. For example `a` alone would work since it is part of the input inside the brackets. I'll explain the email example in more detail below. 
 
 * `[a-z]` means the string can contain any `lowercase` letter between `a` and `z`. 
 * `[0-9]` mmeans the string can contain any number between `0` and `9`.
-* `_` and `-` are special characters. Special characters  are characters that is not a number or letter. In the example used in this tutorial, `/^[a-z0-9_-]{3,16}$/`, we are including the special characters `_` and `-` by adding them after the number `9` as shown. Alone it would look like `[_-]`to include both the underscore and hyphen symbol. 
-* A `bracket expression` can be turned into a `negative character group` by adding the `^` symbol at the beginning of the expression inside the brackets. This would be done to `exclude` characters in the search. A common example is if you wanted to exclude all vowels, both upper and lower case. This would be done by `[aeiouAEIOU]`. 
+* `_` `.`and `-` are special characters. Special characters are characters that is not a number or letter.
+* In the example `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`, eveything inside the `[]` is an option, but not all of those characters are required. 
 
-* In the example to match a username `/^[a-z0-9_-]{3,16}$/` this would look for a stirng between`3` and `16` characters that begins and ends with any combination of lowercase characters, numbers between `0` and `9`, and the special characters `_` and `-`. It does not need to meet all the requirements becasue it is inside the `[]`. It only needs to meet any of those requirements. So `aaa` would work since it is a lowecase letter and a lenght of 3. `a_a-b_bxyzzzzzzz` would also work because it has lowecase letters and the special characters we allowed for, and has a length of 16. 
+* The carrot `^` symbol is the beginning of the input, and the `$` is the end of the input. The `^` matches the starting position with the string, the `$` matches the ending position of the string, or in this case the characters of the email address. 
+
+* In summary, the example `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` can be looked at by each subexpression within the brackets. The brackets indicate that the regex does not need to meet _ALL_ the requirements becasue it is inside the `[]`. It only needs to meet _ANY_ of those requirements. The `+` at the end of the first subexpression `([a-z0-9_\.-]+)` means it _must be at least 1 character long_, but can be a great deal amount longer. So `a` would work since it is a lowecase letter and a lenght of 1. `a_a-b_bxyzz9` would also work because it has lowecase letters, special characters we allowed for, and a number; all of which are allowed in the regex `([a-z0-9_\.-]+)`. 
 
 ### Character Classes
 A `character class` defines a set of characters that can occur in an input string and create a match. Bracket expressions are an example of a character class. 
 More examples include:
-* `\d` matches any Arabic numeral digit so it's effectively the same as `[0-9]` 
+* `\d` matches any Arabic numeral digit so it's effectively the same as `[0-9]`. So `\d` could be used in place of `0-9` and have the same effect. 
 * `\w` matches any alphanummeric character and includes the underscore symbol `_`. It is effectively the same as `[A-Za-z0-9_]`
 * `\s` matches a single whitespace character, tabs and line breaks.
 
 ### The OR Operator
-* The `OR` operator is the symbol `|`, a character some people call a `pipe`. If we were to use the `grouping constructor` example from above `(abc)` we could change that to `(a|b|c)` which would now look for a string containing `a` or `b` or `c` rather than just `abc` as the only match.
-* This is more commonly used when you have more complicated searches and is often used with the `grouping constructor` and a `:` between `grouping constructors`. 
-* For example, `(abc)!(xyz)` would be a match for `abc!xyz` but not `cba!zyx`. Whereas `(a|b|c)!(x|y|z)` would match with `abc!xyz` of course, but would also match with `cba!zyx` or `a!z`. But it would not match with `xyz!abc` because the order is not correct since there are 2 `grouping constructors` separated by a `!`.
+* The `OR` operator is the symbol `|`, a character some people call a `pipe`. If we were to use the `grouping constructor` in `(abc)` we could change that to `(a|b|c)` which would now look for a string containing `a` or `b` or `c` rather than just `abc` as the only match. 
+
 
 ### Flags
 A flag are placed at the end of a regex after the 2nd slash. Their purpose is to define limits or additonal functionality of the regex. There are 6 flags that can be used individually or together.
@@ -125,9 +140,9 @@ Drum Holliday
 I'm currently a student at the UC Irvine Fullstack Coding Bootcamp 
 
 ## Sources
-* RegexBuddy (https://www.regular-expressions.info/backref.html)
-* Link given in class via resources in slack (https://coding-boot-camp.github.io/full-stack/computer-science/regex-tutorial)
+* RegexMagic (https://www.regular-expressions.info/email.html)
 * Javascript.Info (https://javascript.info/regular-expressions)
-
+* Microsoft Learn (https://learn.microsoft.com/en-us/dotnet/standard/base-types/grouping-constructs-in-regular-expressions)
+  
 ## My Github 
 https://github.com/CoderCoding00
