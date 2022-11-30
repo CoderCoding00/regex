@@ -7,7 +7,9 @@ So that I can better understand the search pattern to check and validate usernam
 
 ## Summary
 ```md
-Regex is short word for Regular Expressions. Regular expressions are a series of special characters that define a search patter. The search pattern I want to describe is matching a username which can be done by the following series of characters. 
+Regex is short word for Regular Expressions. 
+Regular expressions are a series of special characters that define a search patter. 
+The search pattern I want to describe is matching a username which can be done by the following series of characters. 
 ```
 
 `/^[a-z0-9_-]{3,16}$/`
