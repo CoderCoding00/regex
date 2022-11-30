@@ -1,4 +1,4 @@
-# Regex Tutorial to Search and Match a Username 
+# Regex Tutorial to Match an Email Address
 ```md
 As a web development student
 I wanted to research and create a tutorial explaining a specific regex
@@ -28,7 +28,7 @@ I will futher explain the components of a regex and how they work in the section
 
 ## Table of Contents
 
-- [Regex Tutorial to Search and Match a Username](#regex-tutorial-to-search-and-match-a-username)
+- [Regex Tutorial to Match an Email Address](#regex-tutorial-to-match-an-email-address)
   - [Summary](#summary)
   - [Table of Contents](#table-of-contents)
   - [Regex Components](#regex-components)
