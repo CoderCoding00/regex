@@ -42,6 +42,7 @@ I will futher explain the components of a regex and how they work in the section
     - [Character Escapes](#character-escapes)
   - [Author](#author)
     - [Sources](#sources)
+- [My Github](#my-github)
 
 ## Regex Components
 
@@ -128,4 +129,5 @@ I'm currently a student at the UC Irvine Fullstack Coding Bootcamp
 * Link given in class via resources in slack (https://coding-boot-camp.github.io/full-stack/computer-science/regex-tutorial)
 * Javascript.Info (https://javascript.info/regular-expressions)
 
-My Github [github] https://github.com/CoderCoding00
+# My Github 
+https://github.com/CoderCoding00
